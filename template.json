@@ -1,0 +1,65 @@
+{
+  "name": "Delta",
+  "subtitle": "Unofficial source for Delta",
+  "description": "Welcome to my source! Here you'll find all of my apps.",
+  "iconURL": "https://cdn.weao.gg/slug/delta/logo.png",
+  "website": "https://deltaexploits.gg/",
+  "patreonURL": "",
+  "tintColor": "#000000",
+  "featuredApps": [
+    "com.gloop.deltamobile"
+  ],
+  "apps": [
+    {
+      "name": "Delta",
+      "bundleIdentifier": "com.gloop.deltamobile",
+      "marketplaceID": "",
+      "developerName": "Delta Exploits",
+      "subtitle": "An awesome executor.",
+      "localizedDescription": "Delta is a revolutionary new way to experience the world of scripting with its extensive library of features that will make your life easier.",
+      "iconURL": "https://i.imgur.com/r3JSqGc.png",
+      "tintColor": "#345cfc",
+      "category": "games",
+      "screenshots": [
+        {
+          "imageURL": "https://cdn.weao.gg/slug/delta/screenshot1.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "imageURL": "https://cdn.weao.gg/slug/delta/screenshot2.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "imageURL": "https://cdn.weao.gg/slug/delta/screenshot3.png",
+          "width": 1920,
+          "height": 1080
+        },
+        {
+          "imageURL": "https://cdn.weao.gg/slug/delta/screenshot4.png",
+          "width": 1920,
+          "height": 1080
+        }
+      ],
+      "versions": [],
+      "appPermissions": {
+        "entitlements": [],
+        "privacy": {
+          "NSAdvertisingAttributionReportEndpoint": "https://appsflyer-skadnetwork.com/",
+          "NSCameraUsageDescription": "Roblox uses your camera to check your age, animate your avatar, and scan QR codes.",
+          "NSContactsUsageDescription": "Connect with friends on Roblox. Your contacts will be regularly synced and matches with other Roblox users will be stored to help you find friends. You can manage this any time in settings.",
+          "NSHumanReadableCopyright": "2014 ROBLOX Inc.",
+          "NSLocalNetworkUsageDescription": "Roblox needs access to local networks to connect to players around you.",
+          "NSLocationWhenInUseUsageDescription": "Roblox needs access to your location to improve your user experience",
+          "NSMicrophoneUsageDescription": "Roblox needs access to your microphone for voice chat.",
+          "NSMotionUsageDescription": "Roblox needs access to the accelerometer to enhance your play experience.",
+          "NSPhotoLibraryAddUsageDescription": "Allow Roblox to access your photo library so you can save images and videos to your device's camera roll.",
+          "NSPhotoLibraryUsageDescription": "Roblox needs access to your photos to enhance your play experience."
+        }
+      },
+      "patreon": {}
+    }
+  ],
+  "news": []
+}
