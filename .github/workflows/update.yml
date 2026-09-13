@@ -60,14 +60,17 @@ jobs:
           git push || echo "nothing to push or push failed (e.g. no upstream yet)"
 
       - name: Upload Pages artifact
-        if: steps.changes.outputs.changed == 'true'
+        # A push/dispatch is an explicit intent to publish: deploy even when the
+        # rebuild matches the committed source.json (no drift to commit).
+        # Scheduled runs deploy only when the rebuild actually changed something.
+        if: steps.changes.outputs.changed == 'true' || github.event_name != 'schedule'
         uses: actions/upload-pages-artifact@v5
         with:
           path: "public"
 
   deploy:
     needs: update
-    if: needs.update.outputs.changed == 'true'
+    if: needs.update.outputs.changed == 'true' || github.event_name != 'schedule'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
