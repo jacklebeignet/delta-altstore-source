@@ -73,7 +73,7 @@ local function syncAssets()
 end
 
 local function pointUrlsAtPages(source: any, baseUrl: string)
-	source.iconURL = baseUrl .. "/assets/logo.webp"
+	source.iconURL = baseUrl .. "/assets/project-icon.png"
 	(source.apps[1] :: any).iconURL = baseUrl .. "/assets/icon.png"
 	local screenshots = (source.apps[1] :: any).screenshots
 	if typeof(screenshots) == "table" then
