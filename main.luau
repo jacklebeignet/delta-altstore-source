@@ -23,7 +23,7 @@ local function resolveBaseUrl(): string
 		if typeof(repo) == "string" then
 			local owner, name = string.match(repo, "^([^/]+)/([^/]+)$")
 			if owner and name then
-				return `https://{owner}.github.io/{name}`
+				return "https://" .. owner .. ".github.io/" .. name
 			end
 		end
 	end
@@ -52,16 +52,16 @@ local function syncAssets()
 		fs.writeDir("public/assets")
 	end
 	for _, entry in ASSETS do
-		local localPath = `assets/{entry.file}`
-		local publicPath = `public/assets/{entry.file}`
+		local localPath = "assets/" .. entry.file
+		local publicPath = "public/assets/" .. entry.file
 		-- Re-seed missing vendored file from upstream (fresh clone safety net)
 		if not fs.isFile(localPath) then
 			local res = net.request(entry.remote)
 			if not res.ok then
-				error(`failed to download asset {entry.remote}: {res.statusCode}`)
+				error("failed to download asset " .. entry.remote .. ": " .. tostring(res.statusCode))
 			end
 			fs.writeFile(localPath, res.body)
-			print(`seeded {localPath} from upstream`)
+			print("seeded " .. localPath .. " from upstream")
 		end
 		-- Stage for Pages (byte copy; Luau strings are 8-bit clean)
 		fs.writeFile(publicPath, fs.readFile(localPath))
@@ -69,13 +69,13 @@ local function syncAssets()
 end
 
 local function pointUrlsAtPages(source: any, baseUrl: string)
-	source.iconURL = `{baseUrl}/assets/logo.webp`
-	(source.apps[1] :: any).iconURL = `{baseUrl}/assets/icon.png`
+	source.iconURL = baseUrl .. "/assets/logo.webp"
+	(source.apps[1] :: any).iconURL = baseUrl .. "/assets/icon.png"
 	local screenshots = (source.apps[1] :: any).screenshots
 	if typeof(screenshots) == "table" then
 		for i, shot in screenshots do
 			if typeof(shot) == "table" then
-				(shot :: any).imageURL = `{baseUrl}/assets/screenshot{i}.png`
+				(shot :: any).imageURL = baseUrl .. "/assets/screenshot" .. tostring(i) .. ".png"
 			end
 		end
 	end
@@ -84,7 +84,7 @@ end
 local function fetchCurrentVersion(): string
 	local request = net.request("https://weao.gg/api/status/exploits")
 	if not request.ok then
-		error(`failed to fetch version: {request.statusCode} {request.statusMessage}`)
+		error("failed to fetch version: " .. tostring(request.statusCode) .. " " .. tostring(request.statusMessage))
 	end
 	local exploits = serde.decode("json", request.body) :: { WeaoExploit }
 	for _, exploit in exploits do
@@ -155,16 +155,16 @@ for _, entry in existingVersions do
 	if typeof(entry) == "table" and (entry :: any).version == version then
 		source.apps[1].versions = existingVersions
 		writeOutputs(serde.encode("json", source))
-		print(`Source already up to date with Delta v{version} ({#existingVersions} versions)`)
+		print("Source already up to date with Delta v" .. version .. " (" .. tostring(#existingVersions) .. " versions)")
 		return
 	end
 end
 
-local downloadURL = `https://cdn.glopdelivery.com/file/Delta-{version}.ipa`
+local downloadURL = "https://cdn.glopdelivery.com/file/Delta-" .. version .. ".ipa"
 
 local remoteSize = getRemoteSize(downloadURL)
 if remoteSize == nil then
-	print(`warn: could not determine size for {downloadURL}, defaulting to 0`)
+	print("warn: could not determine size for " .. downloadURL .. ", defaulting to 0")
 end
 
 local versionEntry = {
@@ -172,7 +172,7 @@ local versionEntry = {
 	size = remoteSize or 0,
 	version = version,
 	date = date,
-	localizedDescription = `- Updated to version {version}\n- Refer to the official Discord/Telegram for the actual updates.`,
+	localizedDescription = "- Updated to version " .. version .. "\n- Refer to the official Discord/Telegram for the actual updates.",
 }
 
 -- Prepend newest version, keep history
@@ -180,4 +180,4 @@ table.insert(existingVersions, 1, versionEntry)
 source.apps[1].versions = existingVersions
 
 writeOutputs(serde.encode("json", source))
-print(`Built source with Delta v{version} ({#existingVersions} versions)`)
+print("Built source with Delta v" .. version .. " (" .. tostring(#existingVersions) .. " versions)")
