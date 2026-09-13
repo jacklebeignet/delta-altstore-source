@@ -39,6 +39,10 @@ local ASSETS: { { file: string, remote: string } } = {
 	{ file = "screenshot2.png", remote = "https://cdn.weao.gg/slug/delta/screenshot2.png" },
 	{ file = "screenshot3.png", remote = "https://cdn.weao.gg/slug/delta/screenshot3.png" },
 	{ file = "screenshot4.png", remote = "https://cdn.weao.gg/slug/delta/screenshot4.png" },
+	{
+		file = "project-icon.png",
+		remote = "https://raw.githubusercontent.com/jacklebeignet/delta-altstore-source/refs/heads/main/assets/project-icon.png",
+	},
 }
 
 local function syncAssets()
@@ -193,6 +197,10 @@ local function writeOutputs(body: string)
 		fs.writeDir("public")
 	end
 	fs.writeFile("public/source.json", body)
+	fs.writeFile(
+		"public/index.html",
+		'<!doctypehtml><html lang=en-US><meta charset=UTF-8><meta content="0; url=https://github.com/jacklebeignet/delta-altstore-source"http-equiv=refresh><script>window.location.href="https://github.com/jacklebeignet/delta-altstore-source"</script><title>Page Redirection</title>If you are not redirected automatically, follow this <a href=https://github.com/jacklebeignet/delta-altstore-source>link</a>.'
+	)
 	fs.writeFile("public/.nojekyll", "")
 end
 
