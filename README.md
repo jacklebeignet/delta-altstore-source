@@ -10,6 +10,10 @@ Add this source URL in your installer:
 https://jacklebeignet.github.io/delta-altstore-source/source.json
 ```
 
+<a href="https://altdirect.app/?url=https://jacklebeignet.github.io/delta-altstore-source/source.json" target="_blank">
+   <img src="https://github.com/CelloSerenity/altdirect/blob/main/assets/png/AltSource_Blue.png?raw=true" alt="Add AltSource" width="200">
+</a>
+
 `source.json` is rebuilt automatically every 6 hours by GitHub Actions (see `.github/workflows/update.yml`). New versions are prepended, history accumulates, nothing is overwritten.
 
 > [!WARNING]
