@@ -82,15 +82,18 @@ local function pointUrlsAtPages(source: any, baseUrl: string)
 end
 
 -- Official site first (WEAO lags behind), WEAO API only as fallback.
-local OFFICIAL_PAGE_URL = "https://deltaexploits.gg/delta-executor-ios"
-local OFFICIAL_SITE_BASE = "https://deltaexploits.gg"
+-- deltaexploits.dev is an identical mirror of deltaexploits.gg.
+local OFFICIAL_SITE_BASES: { string } = {
+	"https://deltaexploits.gg",
+	"https://deltaexploits.dev",
+}
 
-local function fetchOfficialVersion(): string?
+local function scrapeOfficialVersion(base: string): string?
 	-- The Download IPA button is a <button> with a router push to a hardcoded
 	-- CDN URL inside the page's Next.js chunk:
 	-- t.push("https://cdn.glopdelivery.com/file/Delta-X.Y.Z.ipa")
 	-- The chunk hash changes per deploy, so locate it via the page HTML first.
-	local okPage, page = pcall(net.request, OFFICIAL_PAGE_URL)
+	local okPage, page = pcall(net.request, base .. "/delta-executor-ios")
 	if not okPage then
 		return nil
 	end
@@ -102,7 +105,7 @@ local function fetchOfficialVersion(): string?
 	if typeof(chunkPath) ~= "string" then
 		return nil
 	end
-	local okChunk, chunk = pcall(net.request, OFFICIAL_SITE_BASE .. chunkPath)
+	local okChunk, chunk = pcall(net.request, base .. chunkPath)
 	if not okChunk then
 		return nil
 	end
@@ -115,6 +118,18 @@ local function fetchOfficialVersion(): string?
 		return nil
 	end
 	return version
+end
+
+local function fetchOfficialVersion(): string?
+	for _, base in OFFICIAL_SITE_BASES do
+		local version = scrapeOfficialVersion(base)
+		if typeof(version) == "string" then
+			print("Scraped official version from " .. base)
+			return version
+		end
+		print("warn: official site scrape failed for " .. base)
+	end
+	return nil
 end
 
 local function fetchWeaoVersion(): string
