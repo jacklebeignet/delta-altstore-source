@@ -6,9 +6,7 @@
   "website": "https://deltaexploits.gg/",
   "patreonURL": "",
   "tintColor": "#000000",
-  "featuredApps": [
-    "com.gloop.deltamobile"
-  ],
+  "featuredApps": ["com.gloop.deltamobile"],
   "apps": [
     {
       "name": "Delta",
