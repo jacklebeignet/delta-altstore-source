@@ -5,7 +5,7 @@
   "iconURL": "https://jacklebeignet.github.io/delta-altstore-source/assets/project-icon.png",
   "website": "https://deltaexploits.gg/",
   "patreonURL": "",
-  "tintColor": "#4F4DE8",
+  "tintColor": "#00958D",
   "featuredApps": ["com.gloop.deltamobile"],
   "apps": [
     {
@@ -16,7 +16,7 @@
       "subtitle": "Roblox script executor for iOS",
       "localizedDescription": "Delta is a revolutionary new way to experience the world of scripting with its extensive library of features that will make your life easier.",
       "iconURL": "https://jacklebeignet.github.io/delta-altstore-source/assets/icon.png",
-      "tintColor": "#4F4DE8",
+      "tintColor": "#335FFF",
       "category": "games",
       "screenshots": {
         "iphone": [
