@@ -86,7 +86,7 @@ local function fetchCurrentVersion(): string
 	if not request.ok then
 		error(`failed to fetch version: {request.statusCode} {request.statusMessage}`)
 	end
-	local exploits = serde.decode("json", request.body) :: { types.WeaoExploit }
+	local exploits = serde.decode("json", request.body) :: { WeaoExploit }
 	for _, exploit in exploits do
 		if exploit.title == "Delta" and exploit.platform == "iOS" then
 			return tostring(exploit.version)
