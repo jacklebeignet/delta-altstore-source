@@ -2,7 +2,7 @@
   "name": "Delta",
   "subtitle": "Unofficial source for Delta",
   "description": "Welcome to my source! Here you'll find all of my apps.",
-  "iconURL": "https://cdn.weao.gg/slug/delta/logo.png",
+  "iconURL": "https://jacklebeignet.github.io/delta-altstore-source/assets/logo.webp",
   "website": "https://deltaexploits.gg/",
   "patreonURL": "",
   "tintColor": "#000000",
@@ -17,27 +17,27 @@
       "developerName": "Delta Exploits",
       "subtitle": "An awesome executor.",
       "localizedDescription": "Delta is a revolutionary new way to experience the world of scripting with its extensive library of features that will make your life easier.",
-      "iconURL": "https://i.imgur.com/r3JSqGc.png",
+      "iconURL": "https://jacklebeignet.github.io/delta-altstore-source/assets/icon.png",
       "tintColor": "#345cfc",
       "category": "games",
       "screenshots": [
         {
-          "imageURL": "https://cdn.weao.gg/slug/delta/screenshot1.png",
+          "imageURL": "https://jacklebeignet.github.io/delta-altstore-source/assets/screenshot1.png",
           "width": 1920,
           "height": 1080
         },
         {
-          "imageURL": "https://cdn.weao.gg/slug/delta/screenshot2.png",
+          "imageURL": "https://jacklebeignet.github.io/delta-altstore-source/assets/screenshot2.png",
           "width": 1920,
           "height": 1080
         },
         {
-          "imageURL": "https://cdn.weao.gg/slug/delta/screenshot3.png",
+          "imageURL": "https://jacklebeignet.github.io/delta-altstore-source/assets/screenshot3.png",
           "width": 1920,
           "height": 1080
         },
         {
-          "imageURL": "https://cdn.weao.gg/slug/delta/screenshot4.png",
+          "imageURL": "https://jacklebeignet.github.io/delta-altstore-source/assets/screenshot4.png",
           "width": 1920,
           "height": 1080
         }

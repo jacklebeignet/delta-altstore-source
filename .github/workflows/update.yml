@@ -10,6 +10,7 @@ on:
       - "source.json"
       - "template.json"
       - "main.luau"
+      - "assets/**"
 
 permissions:
   contents: write
@@ -33,11 +34,14 @@ jobs:
       - name: Build source.json
         run: lune run main.luau
 
-      - name: Commit updated source.json
+      - name: Stage vendored assets for Pages (belt-and-suspenders if Lune copy missed)
+        run: mkdir -p public/assets && cp -f assets/* public/assets/ && ls -lh public public/assets
+
+      - name: Commit updated source.json + new assets
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add source.json
+          git add source.json assets
           git diff --staged --quiet || git commit -m "chore: update source"
           git push || echo "nothing to push or push failed (e.g. no upstream yet)"
 

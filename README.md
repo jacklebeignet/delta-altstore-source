@@ -17,10 +17,11 @@ https://jacklebeignet.github.io/delta-altstore-source/source.json
 
 ## How it works
 
-- `template.json` — static source template (metadata, icons, screenshots).
-- `main.luau` — fetches the current Delta iOS `version` from `https://weao.gg/api/status/exploits`, HEADs the IPA for its `size`, and writes minified `source.json`. Run with [Lune](https://github.com/lune-org/lune) (`lune run main.luau`, pinned in `rokit.toml`).
+- `template.json` — static source template (metadata, icons, screenshots). Image URLs point at our own Pages `assets/` (see below).
+- `assets/` — vendored images committed to git (`logo.webp`, `icon.png`, `screenshot1-4.png`), originally curled from `cdn.weao.gg` / `imgur`. Self-hosting so the source doesn't depend on third-party hotlinking.
+- `main.luau` — fetches the current Delta iOS `version` from `https://weao.gg/api/status/exploits`, HEADs the IPA for its `size`, rewrites all image URLs to the Pages base URL (from `PAGES_BASE_URL` or `GITHUB_REPOSITORY`, fallback to this repo), copies `assets/` → `public/assets/`, and writes minified `source.json`. Run with [Lune](https://github.com/lune-org/lune) (`lune run main.luau`, pinned in `rokit.toml`).
 - `source.json` — generated build artifact, committed to git (this is what preserves version history). Do not edit by hand.
-- `public/` — gitignored Pages staging, regenerated on every build (`source.json` + `.nojekyll`). Uploaded as the Pages artifact, never committed.
+- `public/` — gitignored Pages staging, regenerated on every build (`source.json` + `assets/` + `.nojekyll`). Uploaded as the Pages artifact, never committed.
 
 ## Known Issues
 

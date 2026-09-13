@@ -2,8 +2,84 @@ local net = require("@lune/net")
 local fs = require("@lune/fs")
 local serde = require("@lune/serde")
 local datetime = require("@lune/datetime")
+local process = require("@lune/process")
 
 type WeaoExploit = { title: string, platform: string, version: string }
+
+-- Pages base URL: explicit override wins, then GITHUB_REPOSITORY (owner/repo),
+-- then canonical fallback. Keeps forks working without editing template.json.
+local DEFAULT_BASE_URL = "https://jacklebeignet.github.io/delta-altstore-source"
+
+local function resolveBaseUrl(): string
+	local ok, env = pcall(function()
+		return process.env
+	end)
+	if ok and typeof(env) == "table" then
+		local explicit = (env :: any).PAGES_BASE_URL
+		if typeof(explicit) == "string" and #explicit > 0 then
+			return (string.gsub(explicit, "/$", ""))
+		end
+		local repo = (env :: any).GITHUB_REPOSITORY
+		if typeof(repo) == "string" then
+			local owner, name = string.match(repo, "^([^/]+)/([^/]+)$")
+			if owner and name then
+				return `https://{owner}.github.io/{name}`
+			end
+		end
+	end
+	return DEFAULT_BASE_URL
+end
+
+-- Vendored images: committed under assets/, published via Pages at /assets/.
+-- Remote URLs are only a fallback to re-seed assets/ on fresh clones.
+local ASSETS: { { file: string, remote: string } } = {
+	{ file = "logo.webp", remote = "https://cdn.weao.gg/slug/delta/logo.png" },
+	{ file = "icon.png", remote = "https://i.imgur.com/r3JSqGc.png" },
+	{ file = "screenshot1.png", remote = "https://cdn.weao.gg/slug/delta/screenshot1.png" },
+	{ file = "screenshot2.png", remote = "https://cdn.weao.gg/slug/delta/screenshot2.png" },
+	{ file = "screenshot3.png", remote = "https://cdn.weao.gg/slug/delta/screenshot3.png" },
+	{ file = "screenshot4.png", remote = "https://cdn.weao.gg/slug/delta/screenshot4.png" },
+}
+
+local function syncAssets()
+	if not fs.isDir("assets") then
+		fs.writeDir("assets")
+	end
+	if not fs.isDir("public") then
+		fs.writeDir("public")
+	end
+	if not fs.isDir("public/assets") then
+		fs.writeDir("public/assets")
+	end
+	for _, entry in ASSETS do
+		local localPath = `assets/{entry.file}`
+		local publicPath = `public/assets/{entry.file}`
+		-- Re-seed missing vendored file from upstream (fresh clone safety net)
+		if not fs.isFile(localPath) then
+			local res = net.request(entry.remote)
+			if not res.ok then
+				error(`failed to download asset {entry.remote}: {res.statusCode}`)
+			end
+			fs.writeFile(localPath, res.body)
+			print(`seeded {localPath} from upstream`)
+		end
+		-- Stage for Pages (byte copy; Luau strings are 8-bit clean)
+		fs.writeFile(publicPath, fs.readFile(localPath))
+	end
+end
+
+local function pointUrlsAtPages(source: any, baseUrl: string)
+	source.iconURL = `{baseUrl}/assets/logo.webp`
+	(source.apps[1] :: any).iconURL = `{baseUrl}/assets/icon.png`
+	local screenshots = (source.apps[1] :: any).screenshots
+	if typeof(screenshots) == "table" then
+		for i, shot in screenshots do
+			if typeof(shot) == "table" then
+				(shot :: any).imageURL = `{baseUrl}/assets/screenshot{i}.png`
+			end
+		end
+	end
+end
 
 local function fetchCurrentVersion(): string
 	local request = net.request("https://weao.gg/api/status/exploits")
@@ -44,8 +120,11 @@ end
 -- Build source.json from template.json, accumulating versions (no overwrite)
 local version = fetchCurrentVersion()
 local date = datetime.now():toRfc3339()
+local baseUrl = resolveBaseUrl()
 
 local source = serde.decode("json", fs.readFile("template.json")) :: any
+pointUrlsAtPages(source, baseUrl)
+syncAssets()
 
 local function writeOutputs(body: string)
 	fs.writeFile("source.json", body)
