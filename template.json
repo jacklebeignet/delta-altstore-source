@@ -1,11 +1,11 @@
 {
   "name": "Delta",
-  "subtitle": "Unofficial source for Delta",
-  "description": "Welcome to my source! Here you'll find all of my apps.",
+  "subtitle": "Auto-updating Delta for iOS — unofficial",
+  "description": "Unofficial AltStore / SideStore source for Delta (iOS). Not affiliated with Delta Exploits.",
   "iconURL": "https://jacklebeignet.github.io/delta-altstore-source/assets/logo.webp",
   "website": "https://deltaexploits.gg/",
   "patreonURL": "",
-  "tintColor": "#000000",
+  "tintColor": "#4F4DE8",
   "featuredApps": ["com.gloop.deltamobile"],
   "apps": [
     {
@@ -13,10 +13,10 @@
       "bundleIdentifier": "com.gloop.deltamobile",
       "marketplaceID": "",
       "developerName": "Delta Exploits",
-      "subtitle": "An awesome executor.",
+      "subtitle": "Roblox script executor for iOS",
       "localizedDescription": "Delta is a revolutionary new way to experience the world of scripting with its extensive library of features that will make your life easier.",
       "iconURL": "https://jacklebeignet.github.io/delta-altstore-source/assets/icon.png",
-      "tintColor": "#345cfc",
+      "tintColor": "#4F4DE8",
       "category": "games",
       "screenshots": {
         "iphone": [
