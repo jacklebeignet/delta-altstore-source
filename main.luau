@@ -110,7 +110,7 @@ local function fetchOfficialVersion(): string?
 	if not chunkResponse.ok then
 		return nil
 	end
-	local version = string.match(chunkResponse.body, 'Delta%-([0-9.]+)%.ipa')
+	local version = string.match(chunkResponse.body, "Delta%-([0-9.]+)%.ipa")
 	if typeof(version) ~= "string" then
 		return nil
 	end
@@ -200,7 +200,9 @@ for _, entry in existingVersions do
 	if typeof(entry) == "table" and (entry :: any).version == version then
 		source.apps[1].versions = existingVersions
 		writeOutputs(serde.encode("json", source))
-		print("Source already up to date with Delta v" .. version .. " (" .. tostring(#existingVersions) .. " versions)")
+		print(
+			"Source already up to date with Delta v" .. version .. " (" .. tostring(#existingVersions) .. " versions)"
+		)
 		return
 	end
 end
@@ -217,7 +219,9 @@ local versionEntry = {
 	size = remoteSize or 0,
 	version = version,
 	date = date,
-	localizedDescription = "- Updated to version " .. version .. "\n- Refer to the official Discord/Telegram for the actual updates.",
+	localizedDescription = "- Updated to version "
+		.. version
+		.. "\n- Refer to the official Discord/Telegram for the actual updates.",
 }
 
 -- Prepend newest version, keep history
