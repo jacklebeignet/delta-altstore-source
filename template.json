@@ -20,28 +20,14 @@
       "iconURL": "https://jacklebeignet.github.io/delta-altstore-source/assets/icon.png",
       "tintColor": "#345cfc",
       "category": "games",
-      "screenshots": [
-        {
-          "imageURL": "https://jacklebeignet.github.io/delta-altstore-source/assets/screenshot1.png",
-          "width": 1920,
-          "height": 1080
-        },
-        {
-          "imageURL": "https://jacklebeignet.github.io/delta-altstore-source/assets/screenshot2.png",
-          "width": 1920,
-          "height": 1080
-        },
-        {
-          "imageURL": "https://jacklebeignet.github.io/delta-altstore-source/assets/screenshot3.png",
-          "width": 1920,
-          "height": 1080
-        },
-        {
-          "imageURL": "https://jacklebeignet.github.io/delta-altstore-source/assets/screenshot4.png",
-          "width": 1920,
-          "height": 1080
-        }
-      ],
+      "screenshots": {
+        "iphone": [
+          "https://jacklebeignet.github.io/delta-altstore-source/assets/screenshot1.png",
+          "https://jacklebeignet.github.io/delta-altstore-source/assets/screenshot2.png",
+          "https://jacklebeignet.github.io/delta-altstore-source/assets/screenshot3.png",
+          "https://jacklebeignet.github.io/delta-altstore-source/assets/screenshot4.png"
+        ]
+      },
       "versions": [],
       "appPermissions": {
         "entitlements": [],
@@ -57,9 +43,7 @@
           "NSPhotoLibraryAddUsageDescription": "Allow Roblox to access your photo library so you can save images and videos to your device's camera roll.",
           "NSPhotoLibraryUsageDescription": "Roblox needs access to your photos to enhance your play experience."
         }
-      },
-      "patreon": {}
+      }
     }
-  ],
-  "news": []
+  ]
 }
