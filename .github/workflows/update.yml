@@ -11,6 +11,7 @@ on:
       - "template.json"
       - "main.luau"
       - "assets/**"
+      - ".github/workflows/update.yml"
 
 permissions:
   contents: write
