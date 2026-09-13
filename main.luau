@@ -81,7 +81,43 @@ local function pointUrlsAtPages(source: any, baseUrl: string)
 	end
 end
 
-local function fetchCurrentVersion(): string
+-- Official site first (WEAO lags behind), WEAO API only as fallback.
+local OFFICIAL_PAGE_URL = "https://deltaexploits.gg/delta-executor-ios"
+local OFFICIAL_SITE_BASE = "https://deltaexploits.gg"
+
+local function fetchOfficialVersion(): string?
+	-- The Download IPA button is a <button> with a router push to a hardcoded
+	-- CDN URL inside the page's Next.js chunk:
+	-- t.push("https://cdn.glopdelivery.com/file/Delta-X.Y.Z.ipa")
+	-- The chunk hash changes per deploy, so locate it via the page HTML first.
+	local okPage, page = pcall(net.request, OFFICIAL_PAGE_URL)
+	if not okPage then
+		return nil
+	end
+	local pageResponse = page :: any
+	if not pageResponse.ok then
+		return nil
+	end
+	local chunkPath = string.match(pageResponse.body, '(/_next/static/chunks/pages/delta%-executor%-ios%-[^"]+%.js)')
+	if typeof(chunkPath) ~= "string" then
+		return nil
+	end
+	local okChunk, chunk = pcall(net.request, OFFICIAL_SITE_BASE .. chunkPath)
+	if not okChunk then
+		return nil
+	end
+	local chunkResponse = chunk :: any
+	if not chunkResponse.ok then
+		return nil
+	end
+	local version = string.match(chunkResponse.body, 'Delta%-([0-9.]+)%.ipa')
+	if typeof(version) ~= "string" then
+		return nil
+	end
+	return version
+end
+
+local function fetchWeaoVersion(): string
 	local request = net.request("https://weao.gg/api/status/exploits")
 	if not request.ok then
 		error("failed to fetch version: " .. tostring(request.statusCode) .. " " .. tostring(request.statusMessage))
@@ -118,7 +154,16 @@ local function getRemoteSize(url: string): number?
 end
 
 -- Build source.json from template.json, accumulating versions (no overwrite)
-local version = fetchCurrentVersion()
+-- Official site first (WEAO lags behind), WEAO API only as fallback.
+local version: string
+local officialVersion = fetchOfficialVersion()
+if typeof(officialVersion) == "string" then
+	version = officialVersion
+	print("Using official site version Delta v" .. version)
+else
+	print("warn: official site scrape failed, falling back to WEAO")
+	version = fetchWeaoVersion()
+end
 local date = datetime.now():toRfc3339()
 local baseUrl = resolveBaseUrl()
 
