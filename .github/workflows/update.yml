@@ -38,7 +38,7 @@ jobs:
         run: lune run main.luau
 
       - name: Stage vendored assets for Pages (belt-and-suspenders if Lune copy missed)
-        run: mkdir -p public/assets && cp -f assets/* public/assets/ && ls -lh public public/assets
+        run: mkdir -p public/assets && cp -f assets/* public/assets/ && rm -f public/assets/favicon.ico && cp -f assets/favicon.ico public/favicon.ico && ls -lh public public/assets
 
       - name: Check for changes
         id: changes

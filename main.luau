@@ -70,6 +70,11 @@ local function syncAssets()
 		-- Stage for Pages (byte copy; Luau strings are 8-bit clean)
 		fs.writeFile(publicPath, fs.readFile(localPath))
 	end
+	-- Favicon at site root (/favicon.ico)
+	local faviconLocal = "assets/favicon.ico"
+	if fs.isFile(faviconLocal) then
+		fs.writeFile("public/favicon.ico", fs.readFile(faviconLocal))
+	end
 end
 
 local function pointUrlsAtPages(source: any, baseUrl: string)
