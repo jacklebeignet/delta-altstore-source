@@ -204,7 +204,7 @@ local function writeOutputs(body: string)
 	fs.writeFile("public/source.json", body)
 	fs.writeFile(
 		"public/index.html",
-		'<!doctypehtml><html lang=en-US><meta charset=UTF-8><meta content="0; url=https://github.com/jacklebeignet/delta-altstore-source"http-equiv=refresh><script>window.location.href="https://github.com/jacklebeignet/delta-altstore-source"</script><title>Page Redirection</title>If you are not redirected automatically, follow this <a href=https://github.com/jacklebeignet/delta-altstore-source>link</a>.'
+		'<!doctypehtml><html lang=en-US><meta charset=UTF-8><link rel=icon href=./favicon.ico><meta content="0; url=https://github.com/jacklebeignet/delta-altstore-source"http-equiv=refresh><script>window.location.href="https://github.com/jacklebeignet/delta-altstore-source"</script><title>Page Redirection</title>If you are not redirected automatically, follow this <a href=https://github.com/jacklebeignet/delta-altstore-source>link</a>.'
 	)
 	fs.writeFile("public/.nojekyll", "")
 end
