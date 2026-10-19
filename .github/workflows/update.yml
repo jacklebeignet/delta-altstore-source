@@ -24,7 +24,7 @@ concurrency:
 
 jobs:
   update:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     outputs:
       changed: ${{ steps.changes.outputs.changed }}
     steps:
@@ -72,7 +72,7 @@ jobs:
   deploy:
     needs: update
     if: needs.update.outputs.changed == 'true' || github.event_name != 'schedule'
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
